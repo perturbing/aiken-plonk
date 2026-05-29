@@ -1,0 +1,20 @@
+# Aiken build output
+plutus.json
+.aiken/
+
+# Circom compilation artifacts
+circom/my-circuit/*.r1cs
+circom/my-circuit/*.sym
+circom/my-circuit/example_js/
+
+# Test vector binaries (keep JSON, ignore large binary files)
+test-vectors/setup/*.ptau
+test-vectors/setup/*.zkey
+test-vectors/example/*.wtns
+
+# Generated assets (except the committed circuit)
+assets/
+
+# Nix
+result
+.direnv/
