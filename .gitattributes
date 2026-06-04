@@ -1,0 +1,2 @@
+test-vectors/setup/pot17_final.ptau filter=lfs diff=lfs merge=lfs -text
+test-vectors/sudoku/sudoku_final.zkey filter=lfs diff=lfs merge=lfs -text

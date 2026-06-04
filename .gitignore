@@ -9,11 +9,8 @@ circom/sudoku/*.sym
 circom/sudoku/sudoku_js/
 circom/sudoku/node_modules/
 
-# Test vector binaries (keep JSON, ignore large binary/key files)
-test-vectors/setup/*.ptau
-test-vectors/setup/*.zkey
+# Test vector binaries (ptau and zkey tracked via Git LFS; wtns ignored)
 test-vectors/sudoku/*.wtns
-test-vectors/sudoku/*.zkey
 
 # Generated assets
 assets/
@@ -24,6 +21,11 @@ scripts/convert_proof/target/
 # Node.js script dependencies
 scripts/node_modules/
 scripts/package-lock.json
+
+# Frontend generated files (npm install + circom output copies)
+frontend/node_modules/
+frontend/package-lock.json
+frontend/public/
 
 # Nix
 result

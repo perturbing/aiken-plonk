@@ -22,6 +22,7 @@
             pkgs.jq
             pkgs.cargo
             pkgs.rustc
+            pkgs.git-lfs
           ];
         };
       });
