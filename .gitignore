@@ -32,10 +32,11 @@ snarkjs-build
 scripts/node_modules/
 scripts/package-lock.json
 
-# Frontend generated files (npm install + circom output copies)
+# Frontend — generated/downloaded artifacts only
 frontend/node_modules/
 frontend/package-lock.json
-frontend/public/
+frontend/public/snarkjs.min.js
+frontend/dist/
 
 # Nix
 result

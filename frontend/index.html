@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudoku PLONK</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    h1 { font-size: 1.5rem; margin-bottom: 0.25rem; text-align: center; }
+    p.subtitle { color: #666; font-size: 0.9rem; margin-bottom: 1.25rem; text-align: center; }
+
+    /* ── Global API key row ── */
+    #api-key-row {
+      margin-bottom: 1.25rem;
+    }
+    #api-key-row label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #555;
+    }
+    #api-key-row input {
+      width: 100%;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+
+    /* ── Tabs ── */
+    .tab-bar {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #ddd;
+    }
+    .tab-btn {
+      padding: 0.5rem 1.25rem;
+      border: none;
+      border-bottom: 2px solid transparent;
+      background: transparent;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #666;
+      margin-bottom: -2px;
+      border-radius: 4px 4px 0 0;
+      transition: color 0.15s;
+    }
+    .tab-btn.active { color: #4a90d9; border-bottom-color: #4a90d9; }
+    .tab-btn:hover:not(.active) { color: #333; }
+
+    /* ── Card ── */
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      max-width: 520px;
+      margin: 0 auto;
+      box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    }
+
+    /* ── Sudoku grid ── */
+    .sudoku-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 2px;
+      width: 100%;
+      aspect-ratio: 1;
+      margin-bottom: 1rem;
+      border: 2px solid #555;
+    }
+
+    .sudoku-grid input {
+      width: 100%;
+      aspect-ratio: 1;
+      text-align: center;
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
+      font-weight: 600;
+      border: 1px solid #ccc;
+      background: #fff;
+      caret-color: transparent;
+      outline: none;
+      transition: background 0.1s;
+    }
+
+    .sudoku-grid input:nth-child(3n):not(:nth-child(9n)) {
+      border-right: 2px solid #555;
+    }
+    .sudoku-grid input:nth-child(n+19):nth-child(-n+27),
+    .sudoku-grid input:nth-child(n+46):nth-child(-n+54) {
+      border-bottom: 2px solid #555;
+    }
+
+    .sudoku-grid input:focus  { background: #e8f4ff; }
+    .sudoku-grid input.given  { background: #f0f0f0; color: #333; cursor: default; }
+    .sudoku-grid input.error  { background: #fff0f0; }
+
+    /* ── Readonly mini-grid (challenges tab) ── */
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 1px;
+      width: 160px;
+      height: 160px;
+      border: 2px solid #555;
+      margin-bottom: 0.5rem;
+      flex-shrink: 0;
+    }
+    .mini-grid span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      color: #333;
+    }
+    .mini-grid span.given { background: #e8e8e8; }
+    .mini-grid span:nth-child(3n):not(:nth-child(9n)) { border-right: 2px solid #555; }
+    .mini-grid span:nth-child(n+19):nth-child(-n+27),
+    .mini-grid span:nth-child(n+46):nth-child(-n+54)  { border-bottom: 2px solid #555; }
+
+    /* ── Hint line ── */
+    .hint { font-size: 0.85rem; color: #555; margin-bottom: 0.75rem; }
+
+    /* ── Buttons ── */
+    .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+    button {
+      padding: 0.5rem 1.1rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    button:disabled { opacity: 0.4; cursor: default; }
+
+    .btn-primary { background: #4a90d9; color: white; }
+    .btn-primary:not(:disabled):hover { background: #357abd; }
+    .btn-success  { background: #2e9e5b; color: white; }
+    .btn-success:not(:disabled):hover { background: #23784a; }
+    .btn-neutral  { background: #e0e0e0; color: #333; }
+    .btn-neutral:not(:disabled):hover { background: #c8c8c8; }
+    .btn-warning  { background: #d97706; color: white; }
+    .btn-warning:not(:disabled):hover { background: #b45309; }
+
+    /* ── Progress / status ── */
+    #progress {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      margin-bottom: 0.75rem;
+      accent-color: #4a90d9;
+    }
+
+    #status {
+      font-size: 0.88rem;
+      color: #555;
+      min-height: 1.2em;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Proof output ── */
+    #output { margin-top: 0.5rem; }
+    #proof-ready-msg { font-size: 0.88rem; color: #2e9e5b; font-weight: 600; margin-bottom: 0.4rem; }
+    #output details summary {
+      font-size: 0.82rem;
+      color: #666;
+      cursor: pointer;
+      margin-bottom: 0.4rem;
+      user-select: none;
+    }
+    #proof-json {
+      width: 100%;
+      height: 140px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 0.5rem;
+      resize: vertical;
+      background: #fafafa;
+    }
+
+    /* ── Warning banner ── */
+    .warning {
+      background: #fffbeb;
+      border: 1px solid #d97706;
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-size: 0.85rem;
+      color: #92400e;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Publish tab form ── */
+    #pub-phase-publish label,
+    #claim-section label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    #pub-phase-publish input[type=number] {
+      width: 100%;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Challenges tab ── */
+    #tab-challenges .fetch-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+    }
+    #tab-challenges .fetch-row label { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+
+    #challenges-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .challenge-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .challenge-card .info { flex: 1; }
+    .challenge-card .info p { font-size: 0.82rem; color: #555; margin-bottom: 0.3rem; }
+    .challenge-card .info .ada { font-weight: 700; font-size: 1rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+
+    #challenges-status { font-size: 0.85rem; color: #555; min-height: 1.2em; margin-bottom: 0.5rem; }
+    #publish-status, #claim-status {
+      font-size: 0.85rem;
+      min-height: 1.2em;
+      margin-bottom: 0.5rem;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Sudoku PLONK</h1>
+    <p class="subtitle">Prove you know a valid sudoku solution without revealing it. Runs entirely in your browser.</p>
+
+    <!-- Global Blockfrost API key -->
+    <div id="api-key-row">
+      <label for="global-blockfrost-key">Blockfrost API key (Preview testnet)</label>
+      <input type="password" id="global-blockfrost-key" placeholder="previewXXXXXXXXXXXX" autocomplete="off" />
+    </div>
+
+    <!-- Tab navigation -->
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-btn-challenges">Challenges</button>
+      <button class="tab-btn"        id="tab-btn-prove">Prove</button>
+      <button class="tab-btn"        id="tab-btn-publish">Publish</button>
+    </div>
+
+    <!-- ===== CHALLENGES TAB ===== -->
+    <div id="tab-challenges">
+      <div class="fetch-row">
+        <button id="btn-fetch" class="btn-primary">Fetch Challenges</button>
+      </div>
+      <div id="challenges-status"></div>
+      <div id="challenges-list"></div>
+    </div>
+
+    <!-- ===== PROVE TAB ===== -->
+    <div id="tab-prove" hidden>
+      <!-- Grid persists across both phases -->
+      <div id="grid"></div>
+
+      <!-- Phase 1: enter puzzle clues -->
+      <div id="phase-puzzle">
+        <p class="hint">Enter the puzzle clues (1–9). Leave empty cells blank.</p>
+        <div class="btn-row">
+          <button id="btn-set-puzzle" class="btn-primary">Set Puzzle</button>
+          <button id="btn-load-example" class="btn-primary">Load Example</button>
+        </div>
+      </div>
+
+      <!-- Phase 2: fill in solution + prove -->
+      <div id="phase-solve" hidden>
+        <p class="hint">Fill in the solution. Grey cells are given clues.</p>
+        <progress id="progress" max="1" hidden></progress>
+        <div id="status"></div>
+        <div class="btn-row">
+          <button id="btn-prove" class="btn-success" disabled>Generate Proof</button>
+          <button id="btn-fill-solution" class="btn-neutral">Fill Example Solution</button>
+          <button id="btn-reset" class="btn-neutral">Reset</button>
+        </div>
+      </div>
+
+      <!-- Proof output (compact) -->
+      <div id="output" hidden>
+        <p id="proof-ready-msg">✓ Proof generated</p>
+        <details>
+          <summary>Show proof JSON</summary>
+          <textarea id="proof-json" readonly></textarea>
+          <div class="btn-row" style="margin-top:0.4rem;">
+            <button id="btn-copy" class="btn-neutral">Copy</button>
+          </div>
+        </details>
+      </div>
+
+      <!-- Claim section (appears after proof for a fetched challenge) -->
+      <div id="claim-section" hidden style="margin-top:1rem; border-top:1px solid #eee; padding-top:1rem;">
+        <h2 style="font-size:1.05rem; margin-bottom:0.5rem;">Claim Reward</h2>
+        <p style="font-size:0.85rem;color:#555;margin-bottom:0.75rem;">
+          You solved the challenge! Claim <strong id="claim-ada-display">?</strong> ₳ by submitting your proof on-chain.
+        </p>
+        <div id="claim-status"></div>
+        <button id="btn-claim" class="btn-success">Connect Eternl &amp; Claim</button>
+      </div>
+
+      <!-- Hint to publish (appears after proof for own puzzle) -->
+      <div id="publish-hint" hidden style="margin-top:1rem; border-top:1px solid #eee; padding-top:0.75rem;">
+        <p style="font-size:0.85rem;color:#555;">
+          Want to publish this puzzle as a challenge? Go to the <a href="#" id="link-to-publish" style="color:#4a90d9;">Publish tab</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===== PUBLISH TAB ===== -->
+    <div id="tab-publish" hidden>
+      <div id="pub-grid"></div>
+
+      <!-- Phase 1: enter puzzle clues -->
+      <div id="pub-phase-puzzle">
+        <p class="hint">Enter the puzzle clues (1–9) that you want others to solve.</p>
+        <div class="btn-row">
+          <button id="pub-btn-set"     class="btn-primary">Set Puzzle</button>
+          <button id="pub-btn-example" class="btn-primary">Load Example</button>
+        </div>
+      </div>
+
+      <!-- Phase 2: fill in solution to verify solvability -->
+      <div id="pub-phase-solve" hidden>
+        <p class="hint">Fill in the full solution to confirm the puzzle is solvable. Grey cells are the clues you set.</p>
+        <div id="pub-solve-status" style="font-size:0.85rem;min-height:1.2em;margin-bottom:0.5rem;color:#c00;"></div>
+        <div class="btn-row">
+          <button id="pub-btn-validate"      class="btn-success" disabled>Confirm Solution</button>
+          <button id="pub-btn-fill-solution" class="btn-neutral">Fill Example Solution</button>
+          <button id="pub-btn-reset"         class="btn-neutral">Reset</button>
+        </div>
+      </div>
+
+      <!-- Phase 3: set ADA and publish (only the clues go on-chain) -->
+      <div id="pub-phase-publish" hidden>
+        <div class="warning">
+          ⚠ You can retract this challenge at any time by signing with your wallet.
+          If someone solves it first they can claim the locked ADA.
+        </div>
+        <label for="pub-ada">ADA to lock</label>
+        <input type="number" id="pub-ada" value="5" min="2" step="1" />
+        <div id="publish-status"></div>
+        <div class="btn-row">
+          <button id="btn-publish" class="btn-warning">Connect Eternl &amp; Publish</button>
+          <button id="pub-btn-reset2" class="btn-neutral">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
