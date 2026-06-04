@@ -15,6 +15,9 @@ test-vectors/example/*.wtns
 # Generated assets (except the committed circuit)
 assets/
 
+# Rust build artifacts
+scripts/convert_proof/target/
+
 # Nix
 result
 .direnv/

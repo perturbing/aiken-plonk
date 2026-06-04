@@ -20,6 +20,8 @@
             pkgs.circom
             pkgs.nodejs
             pkgs.jq
+            pkgs.cargo
+            pkgs.rustc
           ];
         };
       });
