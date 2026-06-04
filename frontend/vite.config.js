@@ -58,7 +58,7 @@ function prebundleHarmonicabs() {
 }
 
 export default defineConfig({
-  base: '/aiken-plonk/',
+  base: '/sudoku-bounty/',
   plugins: [
     prebundleHarmonicabs(),
     // wasm() must come before nodePolyfills so WASM imports are resolved first

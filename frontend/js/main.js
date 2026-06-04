@@ -28,7 +28,7 @@ const EXAMPLE_SOLVED = [
   [3, 4, 5, 2, 8, 6, 1, 7, 9],
 ];
 
-const ZKEY_URL = 'https://media.githubusercontent.com/media/perturbing/aiken-plonk/main/test-vectors/sudoku/sudoku_final.zkey';
+const ZKEY_URL = 'https://media.githubusercontent.com/media/perturbing/sudoku-bounty/main/test-vectors/sudoku/sudoku_final.zkey';
 const IDB_DB   = 'plonk-zkey-store';
 const IDB_KEY  = 'sudoku_final';
 

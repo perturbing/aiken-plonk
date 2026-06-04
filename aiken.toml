@@ -1,13 +1,13 @@
-name = "perturbing/aiken-plonk"
+name = "perturbing/sudoku-bounty"
 version = "0.0.0"
 compiler = "v1.1.19"
 plutus = "v3"
 license = "Apache-2.0"
-description = "An Aiken PLONK verifier using Circom and SnarkJS"
+description = "Zero-knowledge Sudoku challenge-and-solve on Cardano"
 
 [repository]
 user = "perturbing"
-project = "aiken-plonk"
+project = "sudoku-bounty"
 platform = "github"
 
 [[dependencies]]
