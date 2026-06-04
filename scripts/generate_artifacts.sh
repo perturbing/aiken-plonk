@@ -205,8 +205,8 @@ aiken build
 
 echo "==> Applying VK to blueprint..."
 aiken blueprint apply \
-  -m plonk_minting \
-  -v plonk_minting \
+  -m plonk_challenge \
+  -v plonk_challenge \
   --out "$ASSETS_DIR/plutus_applied.json" \
   "$(cat "$ASSETS_DIR/pre_inputs.cbor")"
 
@@ -219,6 +219,7 @@ echo "==> Installing frontend npm dependencies..."
 echo "==> Copying circuit artifacts to frontend/public/..."
 mkdir -p "$REPO_ROOT/frontend/public"
 cp "$CIRCUIT_DIR/sudoku_js/sudoku.wasm" "$REPO_ROOT/frontend/public/"
+cp "$VECTORS_DIR/verification_key.json"  "$REPO_ROOT/frontend/public/"
 
 echo ""
 echo "Done! Artifacts written to $ASSETS_DIR/"

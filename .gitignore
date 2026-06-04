@@ -11,12 +11,22 @@ circom/sudoku/node_modules/
 
 # Test vector binaries (ptau and zkey tracked via Git LFS; wtns ignored)
 test-vectors/sudoku/*.wtns
+# Intermediate ceremony files — only pot17_final.ptau is committed (via LFS)
+test-vectors/setup/*_0000.ptau
+test-vectors/setup/*_0001.ptau
+test-vectors/setup/pot14_*.ptau
+test-vectors/setup/pot16_*.ptau
+test-vectors/setup/pot_final.ptau
+test-vectors/setup/example_final.zkey
 
 # Generated assets
 assets/
 
 # Rust build artifacts
 scripts/convert_proof/target/
+
+# snarkjs fork build workspace
+snarkjs-build
 
 # Node.js script dependencies
 scripts/node_modules/

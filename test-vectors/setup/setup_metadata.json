@@ -1,0 +1,7 @@
+{
+  "ceremony": "single-party",
+  "date": "2026-06-04T17:04:31Z",
+  "entropy_sha256": "374fc03fda04fb7a51bf770e20704cf13c9da21a89e6f992fe08d655400ca66d",
+  "ptau_sha256": "ccd50bda9ad50e10991e270068a4383f5018ad77b084de5a7fe70b13450600e4",
+  "zkey_sha256": "b45dd0fdf304c7813f313faa8a6a850bdf8eb6c24ccd09fe583b16591696a3c4"
+}

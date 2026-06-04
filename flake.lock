@@ -152,17 +152,17 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1715156766,
-        "narHash": "sha256-W/B3G0E4+ld8toXJTQeuJJukcpMA3k9MdiMbIyfuul4=",
+        "lastModified": 1780605677,
+        "narHash": "sha256-MD17LtA1bB18pz4wsakmSfZLHyQ6hLYBdN3v4tYgoRk=",
         "owner": "perturbing",
         "repo": "snarkjs-cardano",
-        "rev": "42eb57674042f9f14c5aee265bb49822119701f6",
+        "rev": "be020da94013d2c2b791c205b6955bfa0a042c2b",
         "type": "github"
       },
       "original": {
         "owner": "perturbing",
         "repo": "snarkjs-cardano",
-        "rev": "42eb57674042f9f14c5aee265bb49822119701f6",
+        "rev": "be020da94013d2c2b791c205b6955bfa0a042c2b",
         "type": "github"
       }
     },

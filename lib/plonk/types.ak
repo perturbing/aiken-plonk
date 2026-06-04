@@ -29,6 +29,16 @@ pub type Proof {
   lagrange_inverses: List<Int>,
 }
 
+/// Datum stored at the script address for an on-chain sudoku challenge.
+/// board_encoded is 41 bytes: 4 zero-pad bits + 81 × 4-bit nibbles (big-endian).
+/// publisher_pkh is the payment key hash of the challenge creator; they may
+/// retract the challenge (and reclaim funds) at any time by signing the tx.
+pub type ChallengeDatum {
+  board_id: Int,
+  board_encoded: ByteArray,
+  publisher_pkh: ByteArray,
+}
+
 /// Verification key (pre-inputs) for a PLONK circuit.
 /// All values are fixed for a given circuit after the trusted setup.
 pub type PreInputs {

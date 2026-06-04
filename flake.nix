@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    snarkjs-cardano.url = "github:perturbing/snarkjs-cardano/42eb57674042f9f14c5aee265bb49822119701f6";
+    snarkjs-cardano.url = "github:perturbing/snarkjs-cardano/be020da94013d2c2b791c205b6955bfa0a042c2b";
     aiken.url = "github:aiken-lang/aiken/v1.1.19";
   };
 
