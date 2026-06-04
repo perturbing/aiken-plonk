@@ -1,22 +1,29 @@
 # Aiken build output
 plutus.json
 .aiken/
+build/
 
 # Circom compilation artifacts
-circom/my-circuit/*.r1cs
-circom/my-circuit/*.sym
-circom/my-circuit/example_js/
+circom/sudoku/*.r1cs
+circom/sudoku/*.sym
+circom/sudoku/sudoku_js/
+circom/sudoku/node_modules/
 
-# Test vector binaries (keep JSON, ignore large binary files)
+# Test vector binaries (keep JSON, ignore large binary/key files)
 test-vectors/setup/*.ptau
 test-vectors/setup/*.zkey
-test-vectors/example/*.wtns
+test-vectors/sudoku/*.wtns
+test-vectors/sudoku/*.zkey
 
-# Generated assets (except the committed circuit)
+# Generated assets
 assets/
 
 # Rust build artifacts
 scripts/convert_proof/target/
+
+# Node.js script dependencies
+scripts/node_modules/
+scripts/package-lock.json
 
 # Nix
 result
