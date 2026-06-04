@@ -102,13 +102,13 @@ sudoku-bounty/
 
 ### Prerequisites
 
-- **Blockfrost API key (Preview testnet)** — needed to fetch challenges and submit transactions. Sign up at [blockfrost.io](https://blockfrost.io/), create a project for the **Preview** network, and copy the `previewXXXXXXXXXX` key. The key is only used client-side to talk to Blockfrost directly; it is never sent anywhere else.
-- **Eternl wallet** — needed only for publishing or claiming. Install the [Eternl](https://eternl.io/) browser extension and switch it to the Preview testnet. You can get free Preview ADA from the [Cardano testnet faucet](https://docs.cardano.org/cardano-testnets/tools/faucet/).
+- **Blockfrost API key (Mainnet)** — needed to fetch challenges and submit transactions. Sign up at [blockfrost.io](https://blockfrost.io/), create a project for the **Mainnet** network, and copy the `mainnetXXXXXXXXXX` key. The key is only used client-side to talk to Blockfrost directly; it is never sent anywhere else.
+- **Eternl wallet** — needed only for publishing or claiming. Install the [Eternl](https://eternl.io/) browser extension and make sure it is set to Mainnet.
 
 Generating and verifying a proof locally requires neither a key nor a wallet.
 
 1. Open https://perturbing.github.io/sudoku-bounty/
-2. Paste your Blockfrost Preview API key into the field at the top.
+2. Paste your Blockfrost Mainnet API key into the field at the top.
 
 ### Prove (no wallet needed)
 
@@ -182,15 +182,15 @@ The ceremony uses single-party randomness, which is fine for development and tes
 
 ---
 
-## Contract details (Preview testnet)
+## Contract details (Mainnet)
 
 | | |
 |---|---|
 | Script hash | `e148dfba00dba24086d33451fd56fcf4db777c47472d27a9ec9cc81c` |
-| Script address | `addr_test1wrs53ha6qrd6ysyx6v69rl2kln6dkamugarj6fafajwvs8qfymxns` |
-| Network | Cardano Preview testnet |
+| Script address | `addr1w8s53ha6qrd6ysyx6v69rl2kln6dkamugarj6fafajwvs8qjv06u4` |
+| Network | Cardano Mainnet |
 | Wallet | Eternl (CIP-30) |
-| Blockchain API | Blockfrost Preview |
+| Blockchain API | Blockfrost Mainnet |
 
 ---
 
