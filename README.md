@@ -191,3 +191,9 @@ The ceremony uses single-party randomness, which is fine for development and tes
 | Network | Cardano Preview testnet |
 | Wallet | Eternl (CIP-30) |
 | Blockchain API | Blockfrost Preview |
+
+---
+
+## Acknowledgements
+
+The Sudoku Circom circuit is based on the work by [Venture23](https://github.com/venture23-zkp/zkp-examples).
